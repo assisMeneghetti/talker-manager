@@ -5,6 +5,7 @@ const talkerRouter = express.Router();
 const services = require('../services');
 
 talkerRouter.get('/talker', services.getAllTalkers);
+talkerRouter.get('/talker/search', rescue(services.searchTalker));
 talkerRouter.get('/talker/:id', services.getTalkerById);
 talkerRouter.post('/login', services.login);
 talkerRouter.post('/talker', rescue(services.createTalker));

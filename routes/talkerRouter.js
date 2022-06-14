@@ -9,5 +9,6 @@ talkerRouter.get('/talker/:id', services.getTalkerById);
 talkerRouter.post('/login', services.login);
 talkerRouter.post('/talker', rescue(services.createTalker));
 talkerRouter.put('/talker/:id', rescue(services.editTalker));
+talkerRouter.delete('/talker/:id', rescue(services.deleteTalker));
 
 module.exports = { talkerRouter };

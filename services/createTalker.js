@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     }
     const talkers = await readFile('./talker.json', 'utf-8');
     const parsedTalkers = JSON.parse(talkers);
-    const curId = Math.max(...parsedTalkers.map((talker) => talker.id)) + 1;
+    const curId = parsedTalkers.length === 0 ? 1 : Math.max(...parsedTalkers.map((t) => t.id)) + 1;
     const newTalker = { name, age, id: curId, talk };
     parsedTalkers.push(newTalker);
     const stringifiedTalkers = JSON.stringify(parsedTalkers, null, 2);

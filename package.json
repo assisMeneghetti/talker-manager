@@ -20,7 +20,9 @@
     "crypto-js": "4.0.0",
     "express": "4.17.1",
     "express-rescue": "1.1.30",
-    "joi": "^17.6.0"
+    "helmet": "^5.1.0",
+    "joi": "^17.6.0",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "eslint": "6.8.0",

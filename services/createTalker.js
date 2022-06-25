@@ -1,4 +1,5 @@
-const { readFile, writeFile } = require('fs/promises');
+// const { writeFile } = require('fs/promises');
+const { readContentFile, writeContentFile } = require('../helpers');
 const newTalkerSchema = require('../schemas/newTalkerSchema');
 
 module.exports = async (req, res) => {
@@ -9,12 +10,12 @@ module.exports = async (req, res) => {
       const [code, message] = error.message.split('|');
       return res.status(code).json({ message });
     }
-    const talkers = await readFile('./talker.json', 'utf-8');
-    const parsedTalkers = JSON.parse(talkers);
+    const parsedTalkers = await readContentFile('./talker.json');
     const curId = parsedTalkers.length === 0 ? 1 : Math.max(...parsedTalkers.map((t) => t.id)) + 1;
     const newTalker = { name, age, id: curId, talk };
-    parsedTalkers.push(newTalker);
-    const stringifiedTalkers = JSON.stringify(parsedTalkers, null, 2);
-    await writeFile('./talker.json', stringifiedTalkers);
+    // parsedTalkers.push(newTalker);
+    // const stringifiedTalkers = JSON.stringify(parsedTalkers, null, 2);
+    // await writeFile('./talker.json', stringifiedTalkers);
+    await writeContentFile('./talker.json', newTalker, 'create');
     return res.status(201).json(newTalker);
 };

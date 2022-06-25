@@ -1,4 +1,4 @@
-const { readFile, writeFile } = require('fs/promises');
+const { readContentFile, writeContentFile } = require('../helpers');
 const authSchema = require('../schemas/authSchema');
 
 module.exports = async (req, res) => {
@@ -9,15 +9,13 @@ module.exports = async (req, res) => {
     const [code, message] = error.message.split('|');
     return res.status(code).json({ message });
   }
-  const talkers = await readFile('./talker.json', 'utf-8');
-  const parsedTalkers = JSON.parse(talkers);
+  const parsedTalkers = await readContentFile('./talker.json');
   const talkerIndex = parsedTalkers.findIndex((t) => t.id === +id);
   if (talkerIndex === -1) {
     res.status(404).json({ message: 'Palestrante não encontrado' });
   } else {
     parsedTalkers.splice(talkerIndex, 1);
-    const stringifiedTalkers = JSON.stringify(parsedTalkers, null, 2);
-    await writeFile('./talker.json', stringifiedTalkers);
+    await writeContentFile('./talker.json', parsedTalkers, 'delete');
     return res.status(204).end();
   }
 };

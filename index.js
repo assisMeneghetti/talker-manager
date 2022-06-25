@@ -1,10 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./routes/talkerRouter');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const routes = require('./routes');
 const middlewares = require('./middlewares');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(helmet());
+app.use(morgan('common'));
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
@@ -14,7 +18,9 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.use('/', routes.talkerRouter);
+app.use('/', routes.talkerRoute);
+
+app.all('*', middlewares.routeNotFound);
 
 app.use(middlewares.errorHandler);
 

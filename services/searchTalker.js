@@ -1,4 +1,4 @@
-const { readFile } = require('fs/promises');
+const { readContentFile } = require('../helpers');
 const authSchema = require('../schemas/authSchema');
 
 module.exports = async (req, res) => {
@@ -9,8 +9,7 @@ module.exports = async (req, res) => {
     const [code, message] = error.message.split('|');
     return res.status(code).json({ message });
   }
-  const talkers = await readFile('./talker.json', 'utf-8');
-  const parsedTalkers = JSON.parse(talkers);
+  const parsedTalkers = await readContentFile('./talker.json');
   const filteredTalkers = parsedTalkers.filter((t) => {
     const lowerCasedQuery = q.toLowerCase();
     const lowerCasedName = t.name.toLowerCase();
